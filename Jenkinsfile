@@ -40,10 +40,9 @@ pipeline {
         stage ('Deploy Docker Image in Kubernetes') {
             steps {
                 sh '''
-                kubectl create namespace application
                 envsubst < deployment.yaml.template > deployment.yaml
-                kubectl apply -f deployment.yaml -n application
-                kubectl apply -f service.yaml -n application
+                kubectl apply -f deployment.yaml 
+                kubectl apply -f service.yaml 
                 '''
             }
         }
