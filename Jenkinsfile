@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'maven s/w'
+    }
+
     environment {
         IMAGE_NAME = "ashwiniboddu/hello-world"
         IMAGE_TAG = "${BUILD_NUMBER}"
