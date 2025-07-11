@@ -7,7 +7,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = "ashwiniboddu/hello-world"
-        IMAGE_TAG = "${BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS = "dockerhub-cred"
     }
 
@@ -24,7 +23,7 @@ pipeline {
         }
         stage ('Build Docker image') {
             steps{
-                sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                sh 'docker build -t ${IMAGE_NAME}:latest .'
             }
         }
         stage ('Push Image to DockerHub') {
@@ -32,7 +31,7 @@ pipeline {
                 script {
                     //login to DockerHub
                     docker.withRegistry('', DOCKERHUB_CREDENTIALS ) {
-                        sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                        sh "docker push ${IMAGE_NAME}:latest"
                     }
                 }
             }
@@ -40,7 +39,6 @@ pipeline {
         stage ('Deploy Docker Image in Kubernetes') {
             steps {
                 sh '''
-                envsubst < deployment.yaml.template > deployment.yaml
                 kubectl apply -f deployment.yaml 
                 kubectl apply -f service.yaml 
                 '''
