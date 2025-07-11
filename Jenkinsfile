@@ -6,6 +6,7 @@ pipeline {
     }
 
     environment {
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'
         IMAGE_NAME = "ashwiniboddu/hello-world"
         DOCKERHUB_CREDENTIALS = "dockerhub-cred"
     }
